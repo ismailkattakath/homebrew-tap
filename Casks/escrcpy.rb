@@ -21,43 +21,6 @@ cask "escrcpy" do
 
   app "Escrcpy.app"
 
-  postflight do
-    app_path = "/Applications/Escrcpy.app"
-
-    unless File.exist?(app_path)
-      opoo "Application not found at #{app_path}"
-      return
-    end
-
-    xattr_path = `which xattr`.chomp
-    quarantine_status = system_command(xattr_path,
-                                       args:         ["-l", app_path],
-                                       print_stderr: false).stdout
-    if quarantine_status.include?("com.apple.quarantine")
-      puts "\n============================================="
-      puts "Would you like to remove the quarantine attribute to fix the app damage issue?"
-      puts "This will prevent the 'app is damaged' warning."
-      puts "Enter 'Y' or press Enter to proceed, 'n' to skip"
-      puts "============================================="
-
-      input = $stdin.gets.chomp.downcase
-      if input.empty? || input == "y"
-        system_command "/usr/bin/sudo",
-                       args: [xattr_path, "-r", "-d", "com.apple.quarantine", app_path],
-                       sudo: true
-        puts "\n✅ Successfully removed quarantine attribute."
-        puts "You can now launch the application normally."
-      else
-        puts "\n⏭️  Skipped removing quarantine attribute."
-        puts "You may need to right-click the app and select 'Open' for first launch."
-      end
-    else
-      puts "\n✨ Quarantine attribute is not present. No action needed."
-    end
-  rescue => e
-    opoo "Error during postflight: #{e.message}"
-  end
-
   uninstall quit: "org.viarotel.escrcpy"
 
   zap trash: [
