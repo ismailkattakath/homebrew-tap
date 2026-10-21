@@ -12,6 +12,6 @@ Non-official taps must be trusted before Homebrew loads their casks
 
 | Cask | App | Notes |
 |---|---|---|
-| `escrcpy` | [Escrcpy](https://github.com/viarotel-org/escrcpy) | From [viarotel-org/homebrew-escrcpy](https://github.com/viarotel-org/homebrew-escrcpy) (Apache-2.0, see `LICENSE`), with `depends_on macos: :catalina` removed — that symbol is disabled in Homebrew 7. The upstream fix ([viarotel-org/homebrew-escrcpy#61](https://github.com/viarotel-org/homebrew-escrcpy/pull/61)) was closed unmerged. |
+| `escrcpy` | [Escrcpy](https://github.com/viarotel-org/escrcpy) | From [viarotel-org/homebrew-escrcpy](https://github.com/viarotel-org/homebrew-escrcpy) (Apache-2.0, see `LICENSE`), with `depends_on macos: :catalina` removed — that symbol is disabled in Homebrew 7. The upstream fix ([viarotel-org/homebrew-escrcpy#61](https://github.com/viarotel-org/homebrew-escrcpy/pull/61)) was closed unmerged. Upstream's interactive quarantine-stripping `postflight` is also removed: Homebrew 7 deprecates Ruby `postflight` blocks, and its stdin prompt can never be answered under `brew bundle`. The app is unsigned, so the consumer strips `com.apple.quarantine` itself (e.g. a Brewfile `postinstall:`). |
 
 Each cask pins `version` + `sha256`; bump both together when the app releases.
