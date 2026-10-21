@@ -13,7 +13,7 @@ cask "civitai-live-wallpaper" do
     skip "No anonymous version source (private project; only release DMGs are public)"
   end
 
-  depends_on macos: ">= :sonoma"
+  depends_on macos: :sonoma
 
   app "CivitAI Live Wallpaper.app"
 
